@@ -6,9 +6,11 @@ def signup():
     password = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
 
     query = {"name":name, "email":email, "password":password}
-
-    response = requests.get("https://api.mineserwery.pl/account.register", params=query)
-    if response.status_code == 200 and response.json()["type"] == "success":
-        token = response.json()["token"]
-        return name, email, password, token
-    return False
+    try:
+        response = requests.get("https://api.mineserwery.pl/account.register", params=query)
+        if response.status_code == 200 and response.json()["type"] == "success":
+            token = response.json()["token"]
+            return name, email, password, token
+        return False
+    except:
+        return False
